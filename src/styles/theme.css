@@ -1,0 +1,32 @@
+/* styles/theme.css */
+/* IIT Roorkee Brand Colors */
+:root {
+  --iitr-blue: #1a365d;
+  --iitr-orange: #e67e22;
+  --iitr-light-gray: #f8f9fa;
+}
+
+/* Custom components */
+.profile-image-mask {
+  clip-path: circle(40% at 50% 50%);
+}
+
+/* Animation for cards */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Publication links */
+.publication-link {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.publication-link::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+}
