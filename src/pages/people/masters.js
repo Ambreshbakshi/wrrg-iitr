@@ -16,7 +16,7 @@ export default function MastersPage() {
         <Tabs activeTab="masters" />
         
         <SectionTitle
-          title="Master's Students"
+          title={"Master&apos;s Students"}
           subtitle="Current MTech and MSc researchers"
           className="mb-8"
         />
@@ -29,7 +29,7 @@ export default function MastersPage() {
 
         {mastersStudents.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">No current master's students to display</p>
+            <p className="text-gray-500">No current master&apos;s students to display</p>
           </div>
         )}
       </div>

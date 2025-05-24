@@ -34,15 +34,16 @@ export default function PastMembersPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">
-              Master's Alumni
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {alumni.masters.map(member => (
-                <PastMemberCard key={member.id} member={member} />
-              ))}
-            </div>
-          </section>
+  <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">
+    Master&apos;s Alumni
+  </h2>
+  <div className="grid md:grid-cols-2 gap-4">
+    {alumni.masters.map(member => (
+      <PastMemberCard key={member.id} member={member} />
+    ))}
+  </div>
+</section>
+
 
           <section>
             <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">
