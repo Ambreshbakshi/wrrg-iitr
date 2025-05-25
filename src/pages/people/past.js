@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Layout from '@/components/layout/Layout';
-import { alumni } from '@/content/people';
+import { past } from '@/content/people';
 import PastMemberCard from '@/components/people/PastMemberCard';
 import Tabs from '@/components/people/Tabs';
 import SectionTitle from '@/components/ui/SectionTitle';
@@ -27,7 +27,7 @@ export default function PastMembersPage() {
               PhD Alumni
             </h2>
             <div className="space-y-4">
-              {alumni.phd.map(member => (
+              {past.phd.map(member => (
                 <PastMemberCard key={member.id} member={member} />
               ))}
             </div>
@@ -38,7 +38,7 @@ export default function PastMembersPage() {
     Master&apos;s Alumni
   </h2>
   <div className="grid md:grid-cols-2 gap-4">
-    {alumni.masters.map(member => (
+    {past.masters.map(member => (
       <PastMemberCard key={member.id} member={member} />
     ))}
   </div>
@@ -50,7 +50,7 @@ export default function PastMembersPage() {
               Former Interns
             </h2>
             <div className="grid md:grid-cols-3 gap-4">
-              {alumni.interns.map(member => (
+              {past.interns.map(member => (
                 <PastMemberCard key={member.id} member={member} />
               ))}
             </div>

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Header from './Header';
 import Footer from './Footer';
 
-export default function Layout({ children, title = "Water Resources Research Group", description = "Research group led by Dr. Anshul Yadav at IIT Roorkee's WRDM Department" }) {
+export default function Layout({ children, title = "Water Treatment & Management Group", description = "Research group led by Dr. Anshul Yadav at IIT Roorkee's WRDM Department" }) {
   return (
     <>
       <Head>

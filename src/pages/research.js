@@ -1,14 +1,17 @@
 import Head from 'next/head';
 import Layout from '@/components/layout/Layout';
-import { researchAreas, publications } from '@/content/research';
-import ResearchAreaCard from '@/components/research/ResearchAreaCard';
+import { publications } from '@/content/research';
+import { patents } from '@/content/research';
+import { invitedTalks } from '@/content/research';
 import PublicationCard from '@/components/research/PublicationCard';
 import SectionTitle from '@/components/ui/SectionTitle';
-import Tabs from '@/components/people/Tabs';
+import Tabs from '@/components/research/tabs';
 import { useState } from 'react';
 
+
+
 export default function Research() {
-  const [activeTab, setActiveTab] = useState('areas');
+  const [activeTab, setActiveTab] = useState('papers');
 
   return (
     <Layout>
@@ -27,43 +30,65 @@ export default function Research() {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           tabs={[
-            { id: 'areas', label: 'Research Areas' },
-            { id: 'publications', label: 'Publications' },
-            { id: 'projects', label: 'Projects' }
+            { id: 'papers', label: 'Research Papers' },
+            { id: 'books', label: 'Books' },
+            { id: 'patents', label: 'Patents' },
+            { id: 'talks', label: 'Invited Talks' },
           ]}
         />
 
-        {activeTab === 'areas' && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-            {researchAreas.map((area) => (
-              <ResearchAreaCard key={area.id} area={area} />
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'publications' && (
+        {activeTab === 'papers' && (
           <div className="mt-8 space-y-6">
-            <h3 className="text-2xl font-semibold mb-6 text-gray-800">
-              Journal Articles
-            </h3>
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800">Journal Articles</h3>
             {publications.journalArticles.map((pub) => (
               <PublicationCard key={pub.id} publication={pub} />
             ))}
 
-            <h3 className="text-2xl font-semibold mb-6 mt-12 text-gray-800">
-              Conference Papers
-            </h3>
-            {publications.conferences.slice(0, 5).map((pub) => (
+            <h3 className="text-2xl font-semibold mb-6 mt-12 text-gray-800">Conference Papers</h3>
+            {publications.conferences.map((pub) => (
               <PublicationCard key={pub.id} publication={pub} />
             ))}
           </div>
         )}
 
-        {activeTab === 'projects' && (
-          <div className="mt-8">
-            <p className="text-gray-700">
-              Our current research projects will be listed here...
-            </p>
+        {activeTab === 'books' && (
+          <div className="mt-8 space-y-6">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800">Books</h3>
+            {publications.books.map((book) => (
+              <PublicationCard key={book.id} publication={book} />
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'patents' && (
+          <div className="mt-8 space-y-6">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800">Patents</h3>
+            {patents.map((patent) => (
+              <div key={patent.id} className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h4 className="text-xl font-semibold text-gray-800 mb-2">{patent.title}</h4>
+                <p className="text-sm text-gray-600 mb-1"><strong>Inventors:</strong> {patent.inventors.join(', ')}</p>
+                <p className="text-sm text-gray-600 mb-1"><strong>Patent Number:</strong> {patent.patentNumber}</p>
+                <p className="text-sm text-gray-600 mb-1"><strong>Filing Date:</strong> {patent.filingDate}</p>
+                <p className="text-sm text-gray-600 mb-3"><strong>Status:</strong> {patent.status}</p>
+                <a href={patent.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">View Patent</a>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'talks' && (
+          <div className="mt-8 space-y-6">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800">Invited Talks</h3>
+            {invitedTalks.map((talk) => (
+              <div key={talk.id} className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h4 className="text-xl font-semibold text-gray-800 mb-2">{talk.title}</h4>
+                <p className="text-sm text-gray-600 mb-1"><strong>Speaker:</strong> {talk.speaker}</p>
+                <p className="text-sm text-gray-600 mb-1"><strong>Event:</strong> {talk.event}</p>
+                <p className="text-sm text-gray-600 mb-1"><strong>Location:</strong> {talk.location}</p>
+                <p className="text-sm text-gray-600 mb-1"><strong>Year:</strong> {talk.year}</p>
+                <p className="text-sm text-gray-600 mt-2">{talk.abstract}</p>
+              </div>
+            ))}
           </div>
         )}
       </div>

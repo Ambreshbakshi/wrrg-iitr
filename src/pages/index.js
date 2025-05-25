@@ -14,14 +14,14 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>Home | Water Resources Research Group</title>
+        <title>Home | Water Treatment & Management Group</title>
       </Head>
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-800 to-blue-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Advancing Water Resources Research
+            Innovating Water Treatment & Sustainable Resource Management
           </h1>
           <p className="text-xl max-w-3xl mx-auto mb-8">
             Innovative solutions for sustainable water management at IIT Roorkee

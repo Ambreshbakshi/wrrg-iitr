@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import Button from '@/components/ui/Button';
+import Link from 'next/link';
 
 const labImages = [
   '/images/lab/lab1.jpg',
@@ -66,6 +67,53 @@ export default function Lab() {
           </p>
         </div>
       </section>
+      
+{/* Lab Sections Overview */}
+<section className="py-16 bg-gray-100">
+  <div className="container mx-auto px-4 text-center max-w-5xl">
+    <h2 className="text-3xl font-bold text-gray-800 mb-10">Explore Our Lab</h2>
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Instruments */}
+      <div className="bg-white p-6 rounded-xl shadow-md flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Instruments</h3>
+          <p className="text-gray-600 mb-4 text-sm">
+            Explore the cutting-edge instruments used in water quality, treatment, and analysis.
+          </p>
+        </div>
+        <Link href="/lab/instruments">
+          <Button>View More</Button>
+        </Link>
+      </div>
+
+      {/* Facilities */}
+      <div className="bg-white p-6 rounded-xl shadow-md flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Facilities</h3>
+          <p className="text-gray-600 mb-4 text-sm">
+            Discover our lab infrastructure including membrane systems, bioreactors, and clean spaces.
+          </p>
+        </div>
+        <Link href="/lab/facilities">
+          <Button>View More</Button>
+        </Link>
+      </div>
+
+      {/* About Lab */}
+      <div className="bg-white p-6 rounded-xl shadow-md flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">About Lab</h3>
+          <p className="text-gray-600 mb-4 text-sm">
+            Learn more about our lab’s mission, vision, and research goals in the water sector.
+          </p>
+        </div>
+        <Link href="/lab/aboutlab">
+          <Button>View More</Button>
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Map Section */}
       <section className="py-16 bg-gray-50">

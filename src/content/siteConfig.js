@@ -1,9 +1,9 @@
 export const siteConfig = {
-  title: 'Water Resources Research Group',
+  title: 'Water Treatment & Management Group',
   description: 'Official website of Dr. Anshul Yadav\'s research group at IIT Roorkee',
   url: 'https://wrdm.iitr.ac.in',
   contact: {
-    address: 'WRDM Department, Indian Institute of Technology Roorkee, Uttarakhand 247667, India',
+    address: 'WTM Department, Indian Institute of Technology Roorkee, Uttarakhand 247667, India',
     email: 'wrdm-group@iitr.ac.in',
     phone: '+91-1332-285-XXX'
   },

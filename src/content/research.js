@@ -92,3 +92,15 @@ export const patents = [
     link: 'https://ipindia.gov.in/patent-details'
   }
 ];
+
+export const invitedTalks = [
+  {
+    id: 'talk-01',
+    title: 'Smart Water Systems: Opportunities and Challenges',
+    event: 'National Workshop on Sustainable Water Solutions',
+    speaker: 'Dr. S.M. Yadav',
+    year: 2023,
+    location: 'IIT Roorkee',
+    abstract: 'Invited keynote on the role of smart technologies in integrated water management.',
+  }
+];
