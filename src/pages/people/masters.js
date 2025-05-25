@@ -16,7 +16,7 @@ export default function MastersPage() {
         <Tabs activeTab="masters" />
         
         <SectionTitle
-          title={"Master&apos;s Students"}
+          title={"Master's Students"}
           subtitle="Current MTech and MSc researchers"
           className="mb-8"
         />

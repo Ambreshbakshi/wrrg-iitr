@@ -23,15 +23,22 @@ export default function PeopleHome() {
           <div className="bg-white rounded-xl shadow-md overflow-hidden p-8 mb-12">
             <div className="flex flex-col md:flex-row items-center">
               <div className="md:w-1/3 mb-6 md:mb-0">
-                <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-blue-100 mx-auto">
-                  <Image
-                    src={pi.photo}
-                    alt={pi.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+<div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-white border-4 border-blue-100 mx-auto flex items-center justify-center overflow-hidden">
+  <div className="relative w-full h-full">
+    <Image
+      src={pi.photo}
+      alt={pi.name}
+      fill
+      className="object-cover object-top"
+    />
+  </div>
+</div>
+
+
+
+
               </div>
+
               <div className="md:w-2/3 md:pl-8">
                 <h2 className="text-2xl font-bold text-gray-800">{pi.name}</h2>
                 <p className="text-blue-600 text-lg mb-4">{pi.position}</p>
