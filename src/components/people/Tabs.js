@@ -9,7 +9,6 @@ export default function PeopleTabs() {
     { name: 'PhD Scholars', path: '/people/phd' },
     { name: 'Master Students', path: '/people/masters' },
     { name: 'Interns', path: '/people/interns' },
-    { name: 'Past Members & Alumni', path: '/people/past' }
   ];
 
   return (

@@ -103,6 +103,7 @@ export default function Header() {
         { name: 'Past Members', path: '/people/past' }
       ]
     },
+    { name: 'Alumni', path: '/people/past' },
     {
       name: 'Research',
       path: '/research',
@@ -110,7 +111,7 @@ export default function Header() {
         { name: 'Research Papers', path: '/research?tab=papers' },
         { name: 'Books', path: '/research?tab=books' },
         { name: 'Patents', path: '/research?tab=patents' },
-        { name: 'Invited Talks', path: '/research?tab=talks' }
+        { name: 'Invited Talks', path: '/research?tab=talks' },
       ]
     },
     {

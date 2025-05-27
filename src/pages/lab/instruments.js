@@ -32,7 +32,10 @@ export default function Instruments() {
                   src={item.image}
                   alt={item.name}
                   fill
-                  className="object-cover"
+                   style={{
+      objectFit: 'contain',
+      objectPosition: 'top'}}
+                
                 />
               </div>
               <div className="p-4">

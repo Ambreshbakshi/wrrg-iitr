@@ -27,8 +27,10 @@ export default function Button({
   
   if (href) {
     return (
-      <Link href={href} className={combinedClasses} {...props}>
-        {children}
+      <Link href={href} legacyBehavior>
+        <a className={combinedClasses} {...props}>
+          {children}
+        </a>
       </Link>
     );
   }

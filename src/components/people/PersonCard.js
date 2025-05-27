@@ -6,15 +6,20 @@ export default function PersonCard({ person }) {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
-      <div className="relative h-48 w-full">
-        <Image
-          src={person.photo}
-          alt={`Photo of ${person.name}`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-      </div>
+<div className="relative h-48 w-full overflow-hidden">
+  <Image
+    src={person.photo}
+    alt={`Photo of ${person.name}`}
+    fill
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+    style={{
+      objectFit: 'contain',
+      objectPosition: 'top'
+    }}
+  />
+</div>
+
+
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-800">{person.name}</h3>
         <p className="text-gray-600 text-sm mt-1">{person.position}</p>

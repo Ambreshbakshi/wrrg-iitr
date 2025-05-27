@@ -25,12 +25,14 @@ export default function PeopleHome() {
               <div className="md:w-1/3 mb-6 md:mb-0">
 <div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-white border-4 border-blue-100 mx-auto flex items-center justify-center overflow-hidden">
   <div className="relative w-full h-full">
-    <Image
-      src={pi.photo}
-      alt={pi.name}
-      fill
-      className="object-cover object-top"
-    />
+  <Image
+  src={pi.photo}
+  alt={pi.name}
+  width={224}       // or 192 depending on your preferred size
+  height={224}
+  className="object-cover object-top"
+/>
+
   </div>
 </div>
 
@@ -45,9 +47,11 @@ export default function PeopleHome() {
                 <p className="text-gray-700 mb-4">
                   Research Interests: {pi.researchInterests.join(', ')}
                 </p>
-                <Button href="/people/pi" className="mt-2">
-                  View Full Profile
-                </Button>
+              <Button href={`/peopleview/${pi.id}`} className="mt-2">
+  View Full Profile
+</Button>
+
+
               </div>
             </div>
           </div>
@@ -61,9 +65,6 @@ export default function PeopleHome() {
             </Button>
             <Button href="/people/interns" variant="outline" className="py-4">
               Interns
-            </Button>
-            <Button href="/people/past" variant="outline" className="py-4">
-              Past Members
             </Button>
           </div>
         </div>
