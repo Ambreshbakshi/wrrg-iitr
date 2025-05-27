@@ -6,12 +6,20 @@ import { invitedTalks } from '@/content/research';
 import PublicationCard from '@/components/research/PublicationCard';
 import SectionTitle from '@/components/ui/SectionTitle';
 import Tabs from '@/components/research/tabs';
-import { useState } from 'react';
-
-
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Research() {
+  const router = useRouter();
+  const { tab } = router.query;
+
   const [activeTab, setActiveTab] = useState('papers');
+
+  useEffect(() => {
+    if (tab && ['papers', 'books', 'patents', 'talks'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [tab]);
 
   return (
     <Layout>
@@ -28,7 +36,10 @@ export default function Research() {
 
         <Tabs 
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={(tab) => {
+            setActiveTab(tab);
+            router.push(`/research?tab=${tab}`, undefined, { shallow: true });
+          }}
           tabs={[
             { id: 'papers', label: 'Research Papers' },
             { id: 'books', label: 'Books' },

@@ -28,7 +28,6 @@ export default function InternsPage() {
               person={{
                 ...person,
                 position: `Intern (${person.duration})`,
-                previousDegree: `${person.college}, ${person.degree}`
               }} 
             />
           ))}

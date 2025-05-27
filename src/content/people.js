@@ -3,7 +3,7 @@
 export const pi = {
   id: 'pi',
   name: 'Dr. Anshul Yadav',
-  position: 'Associate Professor',
+  position: 'Assi Professor',
   photo: '/images/people/anshul-yadav.jpeg',
   role: 'pi', // for conditional rendering if needed
   department: 'Civil Engineering',

@@ -1,22 +1,32 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 export default function Header() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const mobileMenuRef = useRef(null);
   const toggleButtonRef = useRef(null);
+  const dropdownTimeoutRef = useRef(null);
 
-  // Close mobile menu when clicking outside
+  // Track if component is mounted to avoid SSR hydration issues
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        mobileMenuRef.current && 
+        isMobileMenuOpen &&
+        mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
+        toggleButtonRef.current &&
         !toggleButtonRef.current.contains(event.target)
       ) {
         setIsMobileMenuOpen(false);
@@ -25,30 +35,61 @@ export default function Header() {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isMobileMenuOpen]);
 
-  // Scroll effect
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-    window.addEventListener('scroll', handleScroll);
+    
+    // Set initial scroll state
+    handleScroll();
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleMouseEnter = (menuName) => setOpenDropdown(menuName);
-  const handleMouseLeave = () => setOpenDropdown(null);
-
-  // Fixed toggle function with proper state management
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(prev => !prev);
-  };
-
-  const closeAllMenus = () => {
+  // Close all menus
+  const closeAllMenus = useCallback(() => {
     setIsMobileMenuOpen(false);
     setOpenDropdown(null);
-  };
+  }, []);
 
+  // Handle dropdown with delay to prevent accidental closes
+  const handleMouseEnter = useCallback((menuName) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setOpenDropdown(menuName);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 200);
+  }, []);
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => {
+      const newState = !prev;
+      if (newState) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+      return newState;
+    });
+  }, []);
+
+  // Clean up body overflow style on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  // Navigation data
   const navLinks = [
     { name: 'Home', path: '/' },
     {
@@ -66,10 +107,10 @@ export default function Header() {
       name: 'Research',
       path: '/research',
       submenu: [
-        { name: 'Research Papers', path: '/research/papers' },
-        { name: 'Books', path: '/research/books' },
-        { name: 'Patents', path: '/research/patents' },
-        { name: 'Invited Talks', path: '/research/talks' }
+        { name: 'Research Papers', path: '/research?tab=papers' },
+        { name: 'Books', path: '/research?tab=books' },
+        { name: 'Patents', path: '/research?tab=patents' },
+        { name: 'Invited Talks', path: '/research?tab=talks' }
       ]
     },
     {
@@ -77,7 +118,7 @@ export default function Header() {
       path: '/events',
       submenu: [
         { name: 'Upcoming Events', path: '/events/upcoming' },
-        { name: 'Past Events', path: '/events/past' },
+        { name: 'Past Events', path: '/events/past' }
       ]
     },
     { name: 'Awards', path: '/awards' },
@@ -85,32 +126,51 @@ export default function Header() {
       name: 'Our Lab',
       path: '/lab',
       submenu: [
+        { name: 'About Lab', path: '/lab' },
         { name: 'Instruments', path: '/lab/instruments' },
         { name: 'Facilities', path: '/lab/facilities' },
-        { name: 'About Lab', path: '/lab/about' }
+      
       ]
     },
     { name: 'Contact', path: '/contact' }
   ];
 
+  // Check if current route matches a link (including submenu items)
+  const isActiveLink = (path) => {
+    if (path.includes('?')) {
+      const [basePath, query] = path.split('?');
+      return router.pathname === basePath && router.asPath.includes(query);
+    }
+    return router.pathname === path;
+  };
+
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-2' : 'bg-white/90 backdrop-blur-sm py-3'}`}>
-      <div className="container mx-auto px-4">
+    <header 
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-2' : 'bg-white/90 backdrop-blur-sm py-3'
+      }`}
+      aria-label="Main navigation"
+    >
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link 
             href="/" 
-            className="flex items-center space-x-3 group"
+            className="flex items-center space-x-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-md"
             onClick={closeAllMenus}
+            aria-label="Go to homepage"
           >
             <div className="relative w-10 h-10 transition-transform duration-300 group-hover:scale-105">
-              <Image
-                src="/images/logos/iitr-logo-white.png"
-                alt="IIT Roorkee Logo"
-                fill
-                className="object-contain"
-                priority
-              />
+              {isMounted && (
+                <Image
+                  src="/images/logos/iitr-logo-white.png"
+                  alt="IIT Roorkee Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                  priority
+                />
+              )}
             </div>
             <div className="leading-tight">
               <span className="block text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">WTM Research Group</span>
@@ -119,7 +179,10 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-1 items-center">
+          <nav 
+            className="hidden md:flex space-x-1 items-center" 
+            aria-label="Desktop navigation"
+          >
             {navLinks.map((link) => (
               <div
                 key={link.name}
@@ -129,31 +192,39 @@ export default function Header() {
               >
                 <Link
                   href={link.path}
-                  className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
-                    router.pathname === link.path 
-                      ? 'text-blue-600' 
+                  className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
+                    isActiveLink(link.path)
+                      ? 'text-blue-600'
                       : 'text-gray-700 hover:text-blue-600'
                   }`}
+                  aria-haspopup={link.submenu ? 'true' : undefined}
+                  aria-expanded={link.submenu && openDropdown === link.name ? 'true' : 'false'}
                 >
                   {link.name}
                   <span className={`absolute bottom-0 left-1/2 w-0 h-0.5 bg-blue-600 transition-all duration-300 ${
-                    router.pathname === link.path ? 'w-4/5 -translate-x-1/2' : 'group-hover:w-4/5 group-hover:-translate-x-1/2'
+                    isActiveLink(link.path) 
+                      ? 'w-4/5 -translate-x-1/2' 
+                      : 'group-hover:w-4/5 group-hover:-translate-x-1/2'
                   }`}></span>
                 </Link>
                 
                 {link.submenu && (
-                  <div className={`absolute left-1/2 transform -translate-x-1/2 top-full mt-1 w-56 bg-white rounded-lg shadow-xl z-50 transition-all duration-300 origin-top ${
-                    openDropdown === link.name 
-                      ? 'opacity-100 scale-100' 
-                      : 'opacity-0 scale-95 pointer-events-none'
-                  }`}>
+                  <div 
+                    className={`absolute left-1/2 transform -translate-x-1/2 top-full mt-1 w-56 bg-white rounded-lg shadow-xl z-50 transition-all duration-300 origin-top ${
+                      openDropdown === link.name 
+                        ? 'opacity-100 scale-100' 
+                        : 'opacity-0 scale-95 pointer-events-none'
+                    }`}
+                    onMouseEnter={() => handleMouseEnter(link.name)}
+                    onMouseLeave={handleMouseLeave}
+                  >
                     <div className="py-1 border border-gray-100 rounded-lg">
                       {link.submenu.map((sublink) => (
                         <Link
                           key={sublink.path}
                           href={sublink.path}
-                          className={`block px-4 py-2 text-sm transition-colors duration-200 ${
-                            router.pathname === sublink.path
+                          className={`block px-4 py-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:bg-blue-50 ${
+                            isActiveLink(sublink.path)
                               ? 'bg-blue-50 text-blue-600'
                               : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                           }`}
@@ -173,16 +244,18 @@ export default function Header() {
           <button
             ref={toggleButtonRef}
             onClick={toggleMobileMenu}
-            className="md:hidden p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors duration-200"
+            className="md:hidden p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
             aria-expanded={isMobileMenuOpen}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-controls="mobile-menu"
           >
             {isMobileMenuOpen ? (
               <svg
-                className="w-6 h-6 transform transition-transform duration-200 hover:rotate-90"
+                className="w-6 h-6 transform transition-transform duration-200"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -193,10 +266,11 @@ export default function Header() {
               </svg>
             ) : (
               <svg
-                className="w-6 h-6 transform transition-transform duration-200 hover:scale-110"
+                className="w-6 h-6 transform transition-transform duration-200"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -212,8 +286,11 @@ export default function Header() {
         {/* Mobile Navigation */}
         <div 
           ref={mobileMenuRef}
+          id="mobile-menu"
           className={`md:hidden overflow-y-auto transition-all duration-300 ease-in-out ${
-            isMobileMenuOpen ? 'max-h-[80vh] py-3 opacity-100' : 'max-h-0 opacity-0'
+            isMobileMenuOpen 
+              ? 'max-h-[80vh] py-3 opacity-100 visible' 
+              : 'max-h-0 opacity-0 invisible'
           }`}
         >
           <div className="flex flex-col space-y-1 pt-2">
@@ -222,8 +299,8 @@ export default function Header() {
                 <Link
                   href={link.path}
                   onClick={closeAllMenus}
-                  className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    router.pathname === link.path
+                  className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                    isActiveLink(link.path)
                       ? 'bg-blue-50 text-blue-600'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
@@ -237,8 +314,8 @@ export default function Header() {
                         key={sublink.path}
                         href={sublink.path}
                         onClick={closeAllMenus}
-                        className={`block px-4 py-2 rounded-md text-sm transition-colors duration-200 ${
-                          router.pathname === sublink.path
+                        className={`block px-4 py-2 rounded-md text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                          isActiveLink(sublink.path)
                             ? 'bg-blue-50 text-blue-600'
                             : 'text-gray-600 hover:bg-gray-100'
                         }`}

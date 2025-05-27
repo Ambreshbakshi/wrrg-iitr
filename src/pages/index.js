@@ -6,6 +6,8 @@ import { awards } from '@/content/awards';
 import ResearchAreaCard from '@/components/research/ResearchAreaCard';
 import Button from '@/components/ui/Button';
 import Image from 'next/image';
+import { notices } from '@/content/noticedata';
+import { upcomingevents } from '@/content/noticedata';
 
 export default function Home() {
   const featuredAwards = awards.faculty.slice(0, 2);
@@ -21,7 +23,7 @@ export default function Home() {
       <section className="bg-gradient-to-r from-blue-800 to-blue-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Innovating Water Treatment & Sustainable Resource Management
+             Water Treatment & Management
           </h1>
           <p className="text-xl max-w-3xl mx-auto mb-8">
             Innovative solutions for sustainable water management at IIT Roorkee
@@ -42,7 +44,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/3 mb-8 md:mb-0">
-              <div className="relative w-64 h-64 mx-auto rounded-full overflow-hidden border-4 border-blue-100 shadow-lg">
+              <div className="relative w-64 h-80 mx-auto overflow-hidden border-4 border-blue-100 shadow-lg">
                 <Image
                   src={pi.photo}
                   alt={pi.name}
@@ -114,6 +116,111 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Notice Board */}
+<section className="py-16 bg-white">
+  <div className="container mx-auto px-6 max-w-6xl">
+    <h2 className="text-4xl font-extrabold text-center mb-12 text-gray-900 tracking-tight">
+      News & Events
+    </h2>
+
+    <div className="flex flex-col md:flex-row gap-10 md:gap-16">
+      {/* Notice Board (Left) */}
+      <div className="flex-1">
+        <h3 className="text-2xl font-semibold mb-6 border-b-2 border-blue-600 pb-2">
+          Notice Board
+        </h3>
+        <ul className="space-y-5 max-h-[400px] overflow-y-auto pr-3 scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200">
+          {notices.map((notice) => (
+            <li key={notice.id} className="border-l-4 border-blue-600 bg-gray-50 p-4 rounded-md shadow-sm">
+              <div className="flex justify-between items-start">
+                <div>
+                  <a
+                    href={notice.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg font-medium text-gray-800 hover:text-blue-600 transition-colors"
+                  >
+                    {notice.title}
+                  </a>
+                  {notice.isNew && (
+                    <span className="ml-3 inline-block px-2 py-0.5 text-xs font-semibold bg-red-100 text-red-700 rounded-full select-none">
+                      New
+                    </span>
+                  )}
+                </div>
+                <time
+                  dateTime={notice.date}
+                  className="text-sm text-gray-500 italic"
+                  title={new Date(notice.date).toLocaleString()}
+                >
+                  {new Date(notice.date).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6 text-center">
+          <Button href="/notice" variant="outline" className="px-8 py-3 text-lg">
+            View All Notices
+          </Button>
+        </div>
+      </div>
+
+      {/* Upcoming Events (Right) */}
+      <div className="flex-1">
+        <h3 className="text-2xl font-semibold mb-6 border-b-2 border-blue-600 pb-2">
+          Upcoming Events
+        </h3>
+        <ul className="space-y-5 max-h-[400px] overflow-y-auto pr-3 scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200">
+          {upcomingevents.map((event) => (
+            <li key={event.id} className="border-l-4 border-green-600 bg-gray-50 p-4 rounded-md shadow-sm">
+              <div className="flex justify-between items-start">
+                <div>
+                  <a
+                    href={event.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg font-medium text-gray-800 hover:text-green-600 transition-colors"
+                  >
+                    {event.title}
+                  </a>
+                  {event.isNew && (
+                    <span className="ml-3 inline-block px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-700 rounded-full select-none">
+                      New
+                    </span>
+                  )}
+                </div>
+                <time
+                  dateTime={event.date}
+                  className="text-sm text-gray-500 italic"
+                  title={new Date(event.date).toLocaleString()}
+                >
+                  {new Date(event.date).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6 text-center">
+          <Button href="/events" variant="outline" className="px-8 py-3 text-lg">
+            View All Events
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
       {/* Visit Our Office */}
 <section className="py-16 bg-gray-50">
   <div className="container mx-auto px-4 text-center">
