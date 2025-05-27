@@ -52,8 +52,8 @@ export default function Research() {
             {publications.journalArticles.map((pub) => (
               <PublicationCard key={pub.id} publication={pub} />
             ))}
-<h3 className="text-2xl font-semibold mb-6 mt-12 text-gray-800">Conference Papers</h3>
-{Array.isArray(publications.conferences) && publications.conferences.filter(Boolean).length > 0 ? (
+{/* <h3 className="text-2xl font-semibold mb-6 mt-12 text-gray-800">Conference Papers</h3>
+ {Array.isArray(publications.conferences) && publications.conferences.filter(Boolean).length > 0 ? (
   publications.conferences
     .filter((pub) => pub && pub.title) // Filter out null/undefined and objects missing title
     .map((pub) => (
@@ -61,7 +61,7 @@ export default function Research() {
     ))
 ) : (
   <p className="text-gray-600">No conference papers available at this time.</p>
-)}
+)} */}
 
 
   
