@@ -62,7 +62,7 @@ export default function PublicationsPage() {
             </div>
           )}
 
-          {/* Conference Papers */}
+          {/* Conference Papers
           {publications.conferences?.length > 0 && (
             <div>
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Conference Papers</h2>
@@ -88,33 +88,35 @@ export default function PublicationsPage() {
                 ))}
               </ul>
             </div>
-          )}
+          )} */}
 
           {/* Books */}
           {publications.books?.length > 0 && (
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">Books</h2>
-              <ul className="space-y-6 list-disc list-inside">
-                {publications.books.map((pub) => (
-                  <li key={pub.id}>
-                    <p className="text-gray-900 font-medium">{pub.title}</p>
-                    <p className="text-gray-700 text-sm italic">{pub.authors.join(', ')}</p>
-                    <p className="text-gray-600 text-sm">{pub.publisher} ({pub.year})</p>
-                    {pub.link && (
-                      <a
-                        href={pub.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 text-sm hover:underline"
-                      >
-                        View Book
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+  <div>
+    <h2 className="text-2xl font-semibold text-gray-800 mb-4">Books</h2>
+    <ul className="space-y-6 list-disc list-inside">
+      {publications.books.map((pub) => (
+        <li key={pub.id}>
+          <p className="text-gray-900 font-medium">{pub.title}</p>
+          <p className="text-gray-700 text-sm italic">{pub.authors.join(', ')}</p>
+          <p className="text-gray-600 text-sm">{pub.publisher} ({pub.year})</p>
+          {/* Add this line for ISBN */}
+          {pub.isbn && <p className="text-gray-600 text-sm">ISBN: {pub.isbn}</p>}
+          {pub.link && (
+            <a
+              href={pub.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 text-sm hover:underline"
+            >
+              View Book
+            </a>
           )}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
         </div>
       </section>
     </Layout>

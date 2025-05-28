@@ -22,9 +22,9 @@ export default function ContactPage() {
         <div className="container mx-auto px-4 max-w-2xl">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h2>
           <div className="space-y-4 text-gray-700 text-lg">
-            <p><strong>Email:</strong> wrg.iitr@example.com</p>
-            <p><strong>Phone:</strong> +91-1332-285XXX</p>
-            <p><strong>Office:</strong> WRDM Department, IIT Roorkee, Uttarakhand, India</p>
+            <p><strong>Email:</strong> anshul.yadav@wr.iitr.ac.in</p>
+            <p><strong>Phone:</strong> +91-9473583417 (Mob); +91-1332-285617 (O)</p>
+            <p><strong>Office:</strong> WTM Department, IIT Roorkee, Uttarakhand, India</p>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link'; // Add this import
 import Layout from '@/components/layout/Layout';
 import { pi } from '@/content/people';
 import Button from '@/components/ui/Button';
@@ -23,22 +24,17 @@ export default function PeopleHome() {
           <div className="bg-white rounded-xl shadow-md overflow-hidden p-8 mb-12">
             <div className="flex flex-col md:flex-row items-center">
               <div className="md:w-1/3 mb-6 md:mb-0">
-<div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-white border-4 border-blue-100 mx-auto flex items-center justify-center overflow-hidden">
-  <div className="relative w-full h-full">
-  <Image
-  src={pi.photo}
-  alt={pi.name}
-  width={224}       // or 192 depending on your preferred size
-  height={224}
-  className="object-cover object-top"
-/>
-
-  </div>
-</div>
-
-
-
-
+                <div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-white border-4 border-blue-100 mx-auto flex items-center justify-center overflow-hidden">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={pi.photo}
+                      alt={pi.name}
+                      width={224}
+                      height={224}
+                      className="object-cover object-top"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="md:w-2/3 md:pl-8">
@@ -47,11 +43,11 @@ export default function PeopleHome() {
                 <p className="text-gray-700 mb-4">
                   Research Interests: {pi.researchInterests.join(', ')}
                 </p>
-              <Button href={`/peopleview/${pi.id}`} className="mt-2">
-  View Full Profile
-</Button>
-
-
+                <Link href={`/people/${pi.id}`} passHref legacyBehavior>
+                  <Button as="a" className="mt-2">
+                    View Full Profile
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

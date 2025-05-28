@@ -14,7 +14,8 @@ export default function PublicationCard({ publication }) {
     doi,
     pdf,
     link,
-    abstract
+    abstract,
+    isbn
   } = publication;
 
   return (
@@ -46,6 +47,9 @@ export default function PublicationCard({ publication }) {
           {publisher && (
             <p className="text-sm text-gray-500">Publisher: {publisher}</p>
           )}
+          {isbn && (
+  <p className="text-sm text-gray-500">ISBN: {isbn}</p>
+)}
           {location && (
             <p className="text-sm text-gray-500">Location: {location}</p>
           )}

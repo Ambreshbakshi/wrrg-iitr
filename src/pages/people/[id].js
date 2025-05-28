@@ -1,5 +1,6 @@
-// src/pages/people/[id].js
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Image from 'next/image';
 import { pi, phdScholars, mastersStudents, interns, past } from '@/content/people';
 import Layout from '@/components/layout/Layout';
 
@@ -16,6 +17,14 @@ const allPeople = [
 export default function PeopleView() {
   const router = useRouter();
   const { id } = router.query;
+
+  if (router.isFallback) {
+    return (
+      <Layout>
+        <div className="text-center py-20">Loading...</div>
+      </Layout>
+    );
+  }
 
   if (!id) return null;
 
@@ -38,39 +47,62 @@ export default function PeopleView() {
 
   return (
     <Layout>
+      <Head>
+        <title>{person.name} | Water Resources Research Group</title>
+        <meta name="description" content={`Profile of ${person.name}, ${person.position}`} />
+      </Head>
+
       <div className="container mx-auto px-4 py-12 max-w-3xl">
-        <h1 className="text-3xl font-bold mb-4">{person.name}</h1>
-        {person.photo && (
-          <img
-            src={person.photo}
-            alt={person.name}
-            className="w-48 h-48 object-cover rounded-lg mb-6"
-          />
-        )}
-        <p className="text-blue-600 mb-2 font-semibold">{person.position}</p>
+        <div className="flex flex-col md:flex-row gap-8 mb-8">
+          {person.photo && (
+            <div className="relative w-48 h-48 flex-shrink-0">
+              <Image
+                src={person.photo}
+                alt={person.name}
+                fill
+                 className="object-cover object-top"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+              />
+            </div>
+          )}
+          
+          <div>
+            <h1 className="text-3xl font-bold mb-2">{person.name}</h1>
+            <p className="text-blue-600 text-xl font-semibold mb-4">{person.position}</p>
+            
+            {person.department && (
+              <p className="text-gray-700 mb-4 whitespace-pre-line">
+                <strong>Department:</strong> {person.department}
+              </p>
+            )}
+          </div>
+        </div>
 
         {/* Research Interests */}
         {researchInterests.length > 0 && (
-          <div className="mb-4">
-            <h2 className="font-semibold mb-1">Research Interests:</h2>
-            <p>{researchInterests.join(', ')}</p>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2">Research Interests</h2>
+            <div className="flex flex-wrap gap-2">
+              {researchInterests.map((interest, idx) => (
+                <span key={idx} className="bg-blue-50 text-blue-800 px-3 py-1 rounded-full text-sm">
+                  {interest}
+                </span>
+              ))}
+            </div>
           </div>
-        )}
-
-        {/* Department */}
-        {person.department && (
-          <p className="mb-4 text-gray-700">
-            <strong>Department:</strong> {person.department}
-          </p>
         )}
 
         {/* Education */}
         {education.length > 0 && (
-          <div className="mb-4">
-            <h2 className="font-semibold mb-1">Education:</h2>
-            <ul className="list-disc list-inside text-gray-700">
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2">Education</h2>
+            <ul className="space-y-2">
               {education.map((edu, idx) => (
-                <li key={idx}>{edu}</li>
+                <li key={idx} className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  <span>{edu}</span>
+                </li>
               ))}
             </ul>
           </div>
@@ -78,23 +110,33 @@ export default function PeopleView() {
 
         {/* Contact info */}
         {(contact.email || contact.phone || contact.office || contact.website) && (
-          <div className="mb-4">
-            <h2 className="font-semibold mb-1">Contact:</h2>
-            <ul className="text-gray-700">
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2">Contact</h2>
+            <ul className="space-y-2">
               {contact.email && (
-                <li>
-                  <strong>Email:</strong>{' '}
-                  <a href={`mailto:${contact.email}`} className="text-blue-600 underline">
+                <li className="flex items-center">
+                  <span className="text-gray-500 w-24">Email:</span>
+                  <a href={`mailto:${contact.email}`} className="text-blue-600 hover:underline">
                     {contact.email}
                   </a>
                 </li>
               )}
-              {contact.phone && <li><strong>Phone:</strong> {contact.phone}</li>}
-              {contact.office && <li><strong>Office:</strong> {contact.office}</li>}
+              {contact.phone && (
+                <li className="flex items-center">
+                  <span className="text-gray-500 w-24">Phone:</span>
+                  <span>{contact.phone}</span>
+                </li>
+              )}
+              {contact.office && (
+                <li className="flex items-center">
+                  <span className="text-gray-500 w-24">Office:</span>
+                  <span>{contact.office}</span>
+                </li>
+              )}
               {contact.website && (
-                <li>
-                  <strong>Website:</strong>{' '}
-                  <a href={contact.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                <li className="flex items-center">
+                  <span className="text-gray-500 w-24">Website:</span>
+                  <a href={contact.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                     {contact.website}
                   </a>
                 </li>
@@ -104,108 +146,143 @@ export default function PeopleView() {
         )}
 
         {/* Bio */}
-        {person.bio && <p className="mb-4">{person.bio}</p>}
+        {person.bio && (
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2">Bio</h2>
+            <p className="text-gray-700">{person.bio}</p>
+          </div>
+        )}
 
         {/* Social links */}
         {(social.googleScholar || social.researchGate || social.linkedIn) && (
           <div className="mb-6">
-            <h2 className="font-semibold mb-2">Social Profiles:</h2>
-            <ul className="flex gap-4">
+            <h2 className="text-xl font-semibold mb-2">Social Profiles</h2>
+            <div className="flex gap-4">
               {social.googleScholar && (
-                <li>
-                  <a
-                    href={social.googleScholar}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    Google Scholar
-                  </a>
-                </li>
+                <a
+                  href={social.googleScholar}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-blue-600 hover:underline"
+                >
+                  <span className="mr-1">Google Scholar</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
               )}
               {social.researchGate && (
-                <li>
-                  <a
-                    href={social.researchGate}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    ResearchGate
-                  </a>
-                </li>
+                <a
+                  href={social.researchGate}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-blue-600 hover:underline"
+                >
+                  <span className="mr-1">ResearchGate</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
               )}
               {social.linkedIn && (
-                <li>
-                  <a
-                    href={social.linkedIn}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    LinkedIn
-                  </a>
-                </li>
+                <a
+                  href={social.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-blue-600 hover:underline"
+                >
+                  <span className="mr-1">LinkedIn</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
               )}
-            </ul>
+            </div>
           </div>
         )}
 
         {/* Projects */}
         {projects.length > 0 && (
-          <div className="mb-4">
-            <h2 className="font-semibold mb-2">Projects:</h2>
-            {projects.map((proj, idx) => (
-              <div key={idx} className="mb-3 border-l-4 border-blue-600 pl-4">
-                <h3 className="font-semibold">{proj.title}</h3>
-                {proj.funding && <p><strong>Funding:</strong> {proj.funding}</p>}
-                {proj.duration && <p><strong>Duration:</strong> {proj.duration}</p>}
-                {proj.description && <p>{proj.description}</p>}
-              </div>
-            ))}
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2">Projects</h2>
+            <div className="space-y-4">
+              {projects.map((proj, idx) => (
+                <div key={idx} className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-lg">{proj.title}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                    {proj.funding && (
+                      <p><strong>Funding:</strong> {proj.funding}</p>
+                    )}
+                    {proj.duration && (
+                      <p><strong>Duration:</strong> {proj.duration}</p>
+                    )}
+                  </div>
+                  {proj.description && (
+                    <p className="mt-2 text-gray-700">{proj.description}</p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
         {/* Additional fields */}
         {(person.topic || person.previousDegree || person.duration || person.email || person.currentStatus || person.thesisLink) && (
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <h2 className="font-semibold mb-2">Additional Information</h2>
-            {person.previousDegree && (
-              <p><strong>Previous Degree:</strong> {person.previousDegree}</p>
-            )}
-            {person.topic && (
-              <p><strong>Research Topic:</strong> {person.topic}</p>
-            )}
-            {person.duration && (
-              <p><strong>Duration:</strong> {person.duration}</p>
-            )}
-            {person.progress && (
-              <p><strong>Progress:</strong> {person.progress}</p>
-            )}
-            {person.email && (
-              <p>
-                <strong>Email:</strong>{' '}
-                <a href={`mailto:${person.email}`} className="text-blue-600 underline">
-                  {person.email}
-                </a>
-              </p>
-            )}
-            {person.currentStatus && (
-              <p><strong>Current Status:</strong> {person.currentStatus}</p>
-            )}
-            {person.thesisLink && (
-              <p>
-                <strong>Thesis:</strong>{' '}
-                <a
-                  href={person.thesisLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  Download PDF
-                </a>
-              </p>
-            )}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <h2 className="text-xl font-semibold mb-4">Additional Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {person.previousDegree && (
+                <div>
+                  <h3 className="font-medium text-gray-500">Previous Degree</h3>
+                  <p>{person.previousDegree}</p>
+                </div>
+              )}
+              {person.topic && (
+                <div>
+                  <h3 className="font-medium text-gray-500">Research Topic</h3>
+                  <p>{person.topic}</p>
+                </div>
+              )}
+              {person.duration && (
+                <div>
+                  <h3 className="font-medium text-gray-500">Duration</h3>
+                  <p>{person.duration}</p>
+                </div>
+              )}
+              {person.progress && (
+                <div>
+                  <h3 className="font-medium text-gray-500">Progress</h3>
+                  <p>{person.progress}</p>
+                </div>
+              )}
+              {person.email && (
+                <div>
+                  <h3 className="font-medium text-gray-500">Email</h3>
+                  <a href={`mailto:${person.email}`} className="text-blue-600 hover:underline">
+                    {person.email}
+                  </a>
+                </div>
+              )}
+              {person.currentStatus && (
+                <div>
+                  <h3 className="font-medium text-gray-500">Current Status</h3>
+                  <p>{person.currentStatus}</p>
+                </div>
+              )}
+              {person.thesisLink && (
+                <div>
+                  <h3 className="font-medium text-gray-500">Thesis</h3>
+                  <a
+                    href={person.thesisLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    Download PDF
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

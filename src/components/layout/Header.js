@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 export default function Header() {
   const router = useRouter();
@@ -94,19 +95,18 @@ export default function Header() {
     { name: 'Home', path: '/' },
     {
       name: 'Group Members',
-      path: '/people',
+     path: '#',
       submenu: [
-        { name: 'PI', path: '/people/pi' },
+        { name: 'PI', path: '/people/pi-overview' },
         { name: 'PhD Scholars', path: '/people/phd' },
         { name: 'Masters Students', path: '/people/masters' },
         { name: 'Interns', path: '/people/interns' },
-        { name: 'Past Members', path: '/people/past' }
       ]
     },
-    { name: 'Alumni', path: '/people/past' },
+    { name: 'Alumni', path: '/people/alumni' },
     {
       name: 'Research',
-      path: '/research',
+      path: '#',
       submenu: [
         { name: 'Research Papers', path: '/research?tab=papers' },
         { name: 'Books', path: '/research?tab=books' },
@@ -116,7 +116,7 @@ export default function Header() {
     },
     {
       name: 'Events',
-      path: '/events',
+      path: '#',
       submenu: [
         { name: 'Upcoming Events', path: '/events/upcoming' },
         { name: 'Past Events', path: '/events/past' }
@@ -125,10 +125,10 @@ export default function Header() {
     { name: 'Awards', path: '/awards' },
     {
       name: 'Our Lab',
-      path: '/lab',
+      path: '#',
       submenu: [
         { name: 'About Lab', path: '/lab' },
-        { name: 'Instruments', path: '/lab/instruments' },
+        { name: 'Instruments & Facilities ', path: '/lab/instruments' },
         { name: 'Facilities', path: '/lab/facilities' },
       
       ]
@@ -137,14 +137,26 @@ export default function Header() {
   ];
 
   // Check if current route matches a link (including submenu items)
-  const isActiveLink = (path) => {
-    if (path.includes('?')) {
-      const [basePath, query] = path.split('?');
+const isActiveLink = (path, submenu = []) => {
+  // Check if current path matches directly
+  if (path.includes('?')) {
+    const [basePath, query] = path.split('?');
+    if (router.pathname === basePath && router.asPath.includes(query)) {
+      return true;
+    }
+  } else if (router.pathname === path) {
+    return true;
+  }
+
+  // Check if any submenu item matches current route
+  return submenu?.some(sublink => {
+    if (sublink.path.includes('?')) {
+      const [basePath, query] = sublink.path.split('?');
       return router.pathname === basePath && router.asPath.includes(query);
     }
-    return router.pathname === path;
-  };
-
+    return router.pathname === sublink.path;
+  });
+};
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -191,23 +203,34 @@ export default function Header() {
                 onMouseEnter={() => handleMouseEnter(link.name)}
                 onMouseLeave={handleMouseLeave}
               >
-                <Link
-                  href={link.path}
-                  className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
-                    isActiveLink(link.path)
-                      ? 'text-blue-600'
-                      : 'text-gray-700 hover:text-blue-600'
-                  }`}
-                  aria-haspopup={link.submenu ? 'true' : undefined}
-                  aria-expanded={link.submenu && openDropdown === link.name ? 'true' : 'false'}
-                >
-                  {link.name}
-                  <span className={`absolute bottom-0 left-1/2 w-0 h-0.5 bg-blue-600 transition-all duration-300 ${
-                    isActiveLink(link.path) 
-                      ? 'w-4/5 -translate-x-1/2' 
-                      : 'group-hover:w-4/5 group-hover:-translate-x-1/2'
-                  }`}></span>
-                </Link>
+       <Link
+  href={link.path}
+  className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 rounded-md flex items-center space-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
+    isActiveLink(link.path, link.submenu)
+      ? 'text-blue-600'
+      : 'text-gray-700 hover:text-blue-600'
+  }`}
+  aria-haspopup={link.submenu ? 'true' : undefined}
+  aria-expanded={link.submenu && openDropdown === link.name ? 'true' : 'false'}
+>
+  <span className="relative inline-flex items-center gap-1">
+    <span className="relative">
+      {link.name}
+      <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transition-all duration-300 ${
+        isActiveLink(link.path, link.submenu)
+          ? 'scale-x-100' 
+          : 'scale-x-0 group-hover:scale-x-100'
+      }`} style={{ transformOrigin: 'center' }}></span>
+    </span>
+    {link.submenu && (
+      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
+        openDropdown === link.name ? 'rotate-0' : ''
+      } ${
+        isActiveLink(link.path, link.submenu) ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600'
+      }`} />
+    )}
+  </span>
+</Link>
                 
                 {link.submenu && (
                   <div 
@@ -298,16 +321,16 @@ export default function Header() {
             {navLinks.map((link) => (
               <div key={link.name} className="w-full">
                 <Link
-                  href={link.path}
-                  onClick={closeAllMenus}
-                  className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-                    isActiveLink(link.path)
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {link.name}
-                </Link>
+  href={link.path}
+  onClick={closeAllMenus}
+  className={`block px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+    isActiveLink(link.path, link.submenu)
+      ? 'bg-blue-50 text-blue-600'
+      : 'text-gray-700 hover:bg-gray-100'
+  }`}
+>
+  {link.name}
+</Link>
                 {link.submenu && (
                   <div className="pl-6 mt-1 space-y-1">
                     {link.submenu.map((sublink) => (

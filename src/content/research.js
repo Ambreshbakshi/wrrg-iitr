@@ -272,34 +272,26 @@ export const publications = {
   books: [
   {
     id: 'book-01',
-    title: 'Hydrologic Modeling: Select Proceedings of ICWEES-2016',
-    authors: ['Singh, V.P.', 'Yadav, S.', 'Yadava, R.N.'],
-    publisher: 'Springer',
-    year: 2018,
-    link: 'https://link.springer.com/book/10.1007/978-981-10-5801-1',
-    abstract: 'A compilation of proceedings from the International Conference on Water, Environment, and Energy Systems.',
-    featured: false
-  },
-  {
-    id: 'book-02',
     title: 'Membrane-based point-of-use drinking water treatment systems',
     authors: ['P.K. Labhasetwar', 'A. Yadav'],
     publisher: 'International Water Association Publishing',
     year: 2023,
+    link:'https://iwaponline.com/ebooks/book-pdf/1234716/wio9781789062724.pdf',
     isbn: '9781789062717',
-    featured: false
+    featured: true
   },
   {
-    id: 'book-03',
+    id: 'book-02',
     title: 'Applications of two-dimensional nanomaterials for water and wastewater treatment',
     authors: ['A. Yadav', 'R. Yadav', 'P.K. Labhasetwar'],
     publisher: 'AAP, CRC Press',
     year: 2025,
+    link:'https://www.appleacademicpress.com/applications-of-two-dimensional-nanomaterials-in-water-and-wastewater-treatment-/9781779642967',
     isbn: '9781779642967',
     featured: false
   },
   {
-    id: 'book-04',
+    id: 'book-03',
     title: 'Computational techniques for simulating and optimizing adsorption processes for (waste)water treatment',
     authors: ['A. Yadav', 'P.K. Labhasetwar'],
     publisher: 'International Water Association Publishing',

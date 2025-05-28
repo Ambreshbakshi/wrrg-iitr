@@ -3,10 +3,10 @@
 export const pi = {
   id: 'pi',
   name: 'Dr. Anshul Yadav',
-  position: 'Assi Professor',
+  position: 'Assistant Professor',
   photo: '/images/people/anshul-yadav.jpeg',
   role: 'pi', // for conditional rendering if needed
-  department: 'Civil Engineering',
+  department: 'Department of Water Resources Development and Management,\nIndian Institute of Technology, Roorkee – 247667, Uttarakhand, India',
   researchInterests: [
     'Water treatment',
     'Wastewater treatment',
@@ -17,15 +17,15 @@ export const pi = {
     'Design of treatment systems'
   ],
   education: [
-    'PhD, Engineering Sciences, AcSIR, India',
-    'MTech, Mechanical Engineering, IIT Kanpur (2010)',
-    'BTech, Mechanical Engineering, IIT (2008)'
+    'PhD, Engineering Sciences, AcSIR, India (2022)',
+    'MTech, Mechanical Engineering, IIT Kanpur (2017)',
+    'BTech, Mechanical Engineering, IIT (2017)'
   ],
   contact: {
     email: 'anshul.yadav@wr.iitr.ac.in',
-    phone: '+91-94735 83417',
+    phone: '+91-94735 83417 (Mob); +91-1332-285617 (O)',
     office: 'WRDM Department, Room 205',
-    website: 'https://iitr.ac.in/anshuly'
+ 
   },
   bio: 'Passionate Researcher',
   social: {
@@ -167,7 +167,7 @@ export const interns = [
   {
     id: 'intern-01',
     name: 'Rupal Niranjan',
-    photo: '/images/people/interns/intern1.jpg',
+    photo: '/images/people/interns/intern1.jpeg',
     position: 'Intern',
     previousDegree: 'BTech Student, MMMUT, Gorakhpur, U.P',
     topic: 'CFD study of Electrodialysis process',

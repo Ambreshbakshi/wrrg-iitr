@@ -8,6 +8,14 @@ import Button from '@/components/ui/Button';
 import Image from 'next/image';
 import { notices } from '@/content/noticedata';
 import { upcomingevents } from '@/content/noticedata';
+import { 
+  EnvelopeIcon, 
+  PhoneIcon, 
+  BuildingOfficeIcon, 
+  AcademicCapIcon, 
+  BookOpenIcon,
+  CheckCircleIcon 
+} from '@heroicons/react/24/outline';
 
 export default function Home() {
   const featuredAwards = awards.faculty.slice(0, 2);
@@ -40,38 +48,119 @@ export default function Home() {
       </section>
 
       {/* PI Introduction */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center">
-            <div className="md:w-1/3 mb-8 md:mb-0">
-              <div className="relative w-64 h-80 mx-auto overflow-hidden border-4 border-blue-100 shadow-lg">
-                <Image
-                  src={pi.photo}
-                  alt={pi.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </div>
-            <div className="md:w-2/3 md:pl-12">
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                {pi.name}
-              </h2>
-              <p className="text-xl text-blue-600 mb-6">{pi.position}</p>
-              <p className="text-gray-700 mb-6">
-                {pi.researchInterests.join(' • ')}
-              </p>
-              <p className="text-gray-600 mb-6">
-                {pi.bio.substring(0, 200)}...
-              </p>
-              <Button href="/people/pi" className="mt-4">
-                View Full Profile
-              </Button>
-            </div>
+<section className="py-16 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="flex flex-col md:flex-row items-start gap-8">
+      {/* Photo Section */}
+      <div className="md:w-1/3">
+        <div className="relative w-full max-w-xs h-96 mx-auto overflow-hidden rounded-lg shadow-xl border border-gray-200">
+          <Image
+            src={pi.photo}
+            alt={pi.name}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+        
+        {/* Contact Information */}
+        <div className="mt-6 bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-semibold text-gray-800 mb-2">Contact</h3>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <EnvelopeIcon className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
+              <a href={`mailto:${pi.contact.email}`} className="text-gray-700 hover:text-blue-600">
+                {pi.contact.email}
+              </a>
+            </li>
+            <li className="flex items-start">
+              <PhoneIcon className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
+              <span className="text-gray-700">{pi.contact.phone}</span>
+            </li>
+            <li className="flex items-start">
+              <BuildingOfficeIcon className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
+              <span className="text-gray-700">{pi.contact.office}</span>
+            </li>
+          </ul>
+          
+          {/* Social Links */}
+          { <div className="mt-4 flex space-x-4">
+            <a href={pi.social.googleScholar} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600">
+              <AcademicCapIcon className="h-6 w-6" />
+            </a>
+            <a href={pi.social.researchGate} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600">
+              <BookOpenIcon className="h-6 w-6" />
+            </a>
+            
+          </div> }
+  
+        </div>
+      </div>
+
+      {/* Information Section */}
+      <div className="md:w-2/3 space-y-6">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-1">
+            {pi.name}
+          </h2>
+          <p className="text-xl text-blue-600 mb-2">{pi.position}</p>
+          <p className="text-gray-600">{pi.department}</p>
+        </div>
+
+        {/* Research Interests */}
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Research Interests</h3>
+          <div className="flex flex-wrap gap-2">
+            {pi.researchInterests.map((interest, index) => (
+              <span key={index} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm">
+                {interest}
+              </span>
+            ))}
           </div>
         </div>
-      </section>
+
+        {/* Education */}
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Education</h3>
+          <ul className="space-y-2">
+            {pi.education.map((degree, index) => (
+              <li key={index} className="flex items-start">
+                <CheckCircleIcon className="h-5 w-5 text-green-500 mr-2 mt-0.5" />
+                <span className="text-gray-700">{degree}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Current Projects */}
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Current Projects</h3>
+          <div className="space-y-4">
+            {pi.projects.map((project, index) => (
+              <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-medium text-gray-800">{project.title}</h4>
+                <p className="text-gray-600 text-sm mt-1">{project.funding} • {project.duration}</p>
+                <p className="text-gray-700 mt-2">{project.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bio */}
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">About</h3>
+          <p className="text-gray-700 leading-relaxed">
+            {pi.bio}
+          </p>
+        </div>
+
+        <Button href="/people/pi" className="mt-6" variant="outline">
+          View Full Profile & Publications →
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Research Areas */}
       <section className="py-16 bg-gray-50">
@@ -220,29 +309,6 @@ export default function Home() {
   </div>
 </section>
 
-
-      {/* Visit Our Office */}
-<section className="py-16 bg-gray-50">
-  <div className="container mx-auto px-4 text-center">
-    <h2 className="text-3xl font-bold text-gray-800 mb-6">Visit Our Office</h2>
-    <p className="text-gray-700 mb-8 max-w-xl mx-auto">
-      We welcome collaborators, students, and industry partners to visit our lab at IIT Roorkee.
-    </p>
-    <div className="flex justify-center">
-      <iframe
-        title="Lab Location"
-        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d172.17120284773995!2d77.898285!3d29.863601!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjnCsDUxJzQ5LjAiTiA3N8KwNTMnNTMuOCJF!5e0!3m2!1sen!2sin!4v1716537800000!5m2!1sen!2sin"
-        width="100%"
-        height="450"
-        style={{ border: 0, borderRadius: '12px' }}
-        allowFullScreen=""
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        className="w-full max-w-4xl mx-auto"
-      ></iframe>
-    </div>
-  </div>
-</section>
 
     </Layout>
   );

@@ -1,4 +1,4 @@
-// pages/people/pi.js
+// pages/people/pi-overview.js
 import Head from 'next/head';
 import Layout from '@/components/layout/Layout';
 import { pi } from '@/content/people';
