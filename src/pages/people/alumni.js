@@ -57,7 +57,7 @@ export default function PastMembersPage() {
           <section id="masters" className="scroll-mt-20">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                Master's Alumni
+                Master&apos; Alumni
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {past.masters.map(member => (
