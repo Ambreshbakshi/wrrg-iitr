@@ -1,7 +1,7 @@
 export const instruments = [
   {
     name: 'Capillary Flow Porometer - POROLUX™ Revo',
-    image: '/images/instruments/inst-1.PNG',
+    image: '/images/instruments/inst-1.jpg',
     link: 'https://www.porometer.com/products/porolux-revo/',
   },
   {
