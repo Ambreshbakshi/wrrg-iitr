@@ -80,7 +80,7 @@ export default function Footer() {
 
         {/* Bottom Copyright */}
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm">
-          <p>Developed with Next.js • Hosted on Vercel</p>
+          <p>@CopyRight Protected by Dr.Anshul Yadav</p>
         </div>
       </div>
     </footer>
