@@ -1,7 +1,7 @@
 export const instruments = [
   {
     name: 'Capillary Flow Porometer - POROLUX™ Revo',
-    image: '/images/instruments/inst-1.png',
+    image: '/images/instruments/inst-1.PNG',
     link: 'https://www.porometer.com/products/porolux-revo/',
   },
   {
@@ -16,7 +16,7 @@ export const instruments = [
   },
   {
     name: 'Electrospinner - PICO, Chennai',
-    image: '/images/instruments/inst-4.png',
+    image: '/images/instruments/inst-4.PNG',
     link: 'https://en.wikipedia.org/wiki/Electrospinning',
   },
   {
@@ -41,7 +41,7 @@ export const instruments = [
   },
   {
     name: 'Hollow Fiber Membrane Casting Unit - Tech Inc. India',
-    image: '/images/instruments/inst-9.png',
+    image: '/images/instruments/inst-9.PNG',
     link: 'https://en.wikipedia.org/wiki/Hollow_fiber_membrane',
   },
   {
@@ -51,12 +51,12 @@ export const instruments = [
   },
   {
     name: 'Rotary Evaporator - Roteva, Equitron',
-    image: '/images/instruments/inst-11.png',
+    image: '/images/instruments/inst-11.PNG',
     link: 'https://en.wikipedia.org/wiki/Rotary_evaporator',
   },
   {
     name: "Doctor's Blade - Lloyd",
-    image: '/images/instruments/inst-12.png',
+    image: '/images/instruments/inst-12.PNG',
     link: 'https://en.wikipedia.org/wiki/Doctor_blade',
   },
 ];
