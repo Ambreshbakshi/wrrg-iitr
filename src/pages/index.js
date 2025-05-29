@@ -104,7 +104,7 @@ export default function Home() {
             {pi.name}
           </h2>
           <p className="text-xl text-blue-600 mb-2">{pi.position}</p>
-          <p className="text-gray-600">{pi.department}</p>
+          <p className="text-gray-600 whitespace-pre-line">{pi.department}</p>
         </div>
 
         {/* Research Interests */}

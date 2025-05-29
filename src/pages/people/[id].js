@@ -52,7 +52,7 @@ export default function PeopleView() {
         <meta name="description" content={`Profile of ${person.name}, ${person.position}`} />
       </Head>
 
-      <div className="container mx-auto px-4 py-12 max-w-3xl">
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="flex flex-col md:flex-row gap-8 mb-8">
           {person.photo && (
             <div className="relative w-48 h-48 flex-shrink-0">
@@ -73,7 +73,7 @@ export default function PeopleView() {
             
             {person.department && (
               <p className="text-gray-700 mb-4 whitespace-pre-line">
-                <strong>Department:</strong> {person.department}
+                <strong></strong> {person.department}
               </p>
             )}
           </div>

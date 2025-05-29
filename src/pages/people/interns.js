@@ -9,7 +9,7 @@ export default function InternsPage() {
   return (
     <Layout>
       <Head>
-        <title>Interns | WRDM Research Group</title>
+        <title>Interns | WTM Research Group</title>
       </Head>
 
       <div className="container mx-auto px-4 py-6">
